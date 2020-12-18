@@ -8,7 +8,12 @@ const crypto = require('crypto');
 
 // 로그인
 router.get('/login', function(req, res, next) {
-  res.render('user/login');
+  let session = req.session;
+  console.log(session);
+
+  res.render("user/login", {
+    session : session
+  });
 });
 
 router.post('/login',async function(req,res,next){
@@ -27,19 +32,21 @@ router.post('/login',async function(req,res,next){
 
   if(dbPassword === hashPassword){
     console.log("비밀번호 일치!");
-    res.cookie('user', body.useremail,{
-      expires: new Date(Date.now() + 900000),
-      httponly: true
-    });
-
-
-    res.redirect('/');
+    req.session.email = body.useremail;
+    res.redirect('/user/login');
   }
   else{
     console.log("비밀번호 불일치");
     res.redirect('/user/login');
   }
+});
 
+// 로그아웃
+router.get('/logout', function(req,res,next){
+  req.session.destroy();
+  res.clearCookie('sid');
+
+  res.redirect('/');
 })
 
 
@@ -47,7 +54,11 @@ router.post('/login',async function(req,res,next){
 
 // 회원가입
 router.get('/sign_up', function(req, res, next) {
-  res.render('user/signup');
+  let session = req.session;
+
+  res.render("user/signup", {
+    session : session
+  });
 });
 
 router.post("/sign_up", function(req,res,next){

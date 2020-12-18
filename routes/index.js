@@ -10,7 +10,12 @@ let client = mysql.createConnection({
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index');
+
+  let session = req.session;
+
+  res.render("index", {
+    session : session
+  });
 });
 
 router.get('/create', function(req, res, next) {

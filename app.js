@@ -35,6 +35,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+  key: 'sid',
+  secret: 'twkimd',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 24000 * 60 * 60 // 쿠키 유효기간 24시간
+  }
+}));
+
 
 // 라우터 사용
 app.use('/', indexRouter);
@@ -57,15 +67,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.use(session({
-  key: 'sid',
-  secret: 'twkimd',
-  resave: false, //세션을 항상 저장할지
-  saveUninitialized: true,
-  cookie: {
-    maxAge: 24000 * 60 * 60 // 유효시간 24시간
-  }
-}));
 
 
 
