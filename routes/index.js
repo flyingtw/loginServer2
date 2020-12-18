@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql2');
 
+
 let client = mysql.createConnection({
   user: "root",
   password: "abcd1234",
@@ -9,12 +10,22 @@ let client = mysql.createConnection({
 })
 
 /* GET home page. */
+/*
 router.get('/', function(req, res, next) {
 
   let session = req.session;
 
   res.render("index", {
     session : session
+  });
+});
+*/
+router.get('/', function(req, res, next) {
+
+  let token = req.cookies.user;
+  console.log(token);
+  res.render("index", {
+    user : token
   });
 });
 
