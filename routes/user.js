@@ -1,21 +1,27 @@
 const express = require('express');
 const router = express.Router();
 const models = require('../models');
-const crypto = require('crypto');
 
 const usersController = require('./controllers/users.controllers');
 
-let jwt = require('jsonwebtoken');
-let secretObj = require('../config/jwt');
+
+
+// controller 폴더로 관리
+router.get('/login', usersController.loginPage);
+router.post('/login', usersController.tryLogin);
+
+router.get('/logout', usersController.tryLogout);
+
+router.get('/sign_up', usersController.signupPage);
+router.post('/sign_up', usersController.trySignup);
+
+
+
 
 
 
 
 // 로그인
-
-// controller 폴더로 관리
-//router.get('/login', usersController.getUi);
-
 // 세션사용
 /* 
 router.get('/login', function(req, res, next) {
@@ -56,17 +62,20 @@ router.post('/login',async function(req,res,next){
 });
 */
 
+/*
 router.get('/login', function(req, res, next) {
   let token = req.cookies.user;
-  console.log(token);
+  //console.log(token);
 
   res.render("user/login", {
     user : token
   });
 });
+*/
 
 
 
+/*
 router.post('/login',  async function(req,res,next){
   let body = req.body;
   try{
@@ -101,33 +110,30 @@ router.post('/login',  async function(req,res,next){
     next(err);
   }
 });
+*/
 
 
 
 
-
-
+/*
 // 로그아웃
 router.get('/logout', function(req,res,next){
-  //req.session.destroy();
-  //req.cookies.destroy();
-  res.clearCookie('sid');
-
+  res.clearCookie('user');
   res.redirect('/');
-})
+});
+*/
 
-
-
-
+/*
 // 회원가입
 router.get('/sign_up', function(req, res, next) {
-  let session = req.session;
+  let token = req.cookies.user;
 
   res.render("user/signup", {
-    session : session
+    user : token
   });
 });
-
+*/
+/*
 router.post("/sign_up", function(req,res,next){
   let body = req.body;
 
@@ -142,13 +148,13 @@ router.post("/sign_up", function(req,res,next){
     salt: salt
   })
   .then( result => {
-    res.redirect("/user/sign_up");
+    res.redirect("/user/login");
   })
   .catch( err => {
     console.log(err)
   })
 })
-
+*/
 
 
 module.exports = router;

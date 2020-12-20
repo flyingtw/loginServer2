@@ -7,10 +7,11 @@ const crypto = require('crypto');
 let jwt = require('jsonwebtoken');
 let secretObj = require('../../config/jwt');
 
-exports.loginPage = async function(req,res,next){
-    let token = await req.cookies.user;
-    res.render("user/login", {
-      token : token
+exports.mainPage = async function(req,res,next){
+  let token = req.cookies.user;
+  console.log(token);
+  res.render("index", {
+    token : token
   });
 };
 
@@ -31,7 +32,7 @@ exports.tryLogin = async function(req, res, next){
         expiresIn: '5m'
       });
 
-      res.cookie('user', token);
+      res.cookie('token', token);
       res.render('user/login',{
         token: token
       });

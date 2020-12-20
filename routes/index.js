@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('mysql2');
+const models = require('../models');
+
+const indexsController = require('./controllers/indexs.controllers');
 
 
-let client = mysql.createConnection({
-  user: "root",
-  password: "abcd1234",
-  database: "user_db"
-})
+
+// controller 폴더로 관리
+
+router.get('/', indexsController.mainPage);
+
 
 /* GET home page. */
 /*
@@ -20,15 +22,18 @@ router.get('/', function(req, res, next) {
   });
 });
 */
+/*
 router.get('/', function(req, res, next) {
 
   let token = req.cookies.user;
   console.log(token);
   res.render("index", {
-    user : token
+    token : token
   });
 });
+*/
 
+/*
 router.get('/create', function(req, res, next) {
   client.query("SELECT * FROM user;", function(err, result, fields){
     if(err){
@@ -51,6 +56,7 @@ router.post('/create', function(req, res, next) {
     res.redirect("/create");
   });
 });
+*/
 
 
 module.exports = router;
