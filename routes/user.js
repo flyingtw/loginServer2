@@ -4,13 +4,15 @@ const models = require('../models');
 
 const usersController = require('./controllers/users.controllers');
 
+const { verifyToken } = require('./middlewares/authorization');
+
 
 
 // controller 폴더로 관리
 router.get('/login', usersController.loginPage);
 router.post('/login', usersController.tryLogin);
 
-router.get('/logout', usersController.tryLogout);
+router.get('/logout', verifyToken, usersController.tryLogout);
 
 router.get('/sign_up', usersController.signupPage);
 router.post('/sign_up', usersController.trySignup);

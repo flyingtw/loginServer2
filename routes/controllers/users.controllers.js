@@ -4,8 +4,8 @@ const models = require('../../models');
 const crypto = require('crypto');
 
 
-let jwt = require('jsonwebtoken');
-let secretObj = require('../../config/jwt');
+const jwt = require('jsonwebtoken');
+const secretObj = require('../../config/jwt');
 
 exports.loginPage = async function(req,res,next){
     let token = await req.cookies.user;
@@ -26,12 +26,12 @@ exports.tryLogin = async function(req, res, next){
     if(result){
       console.log(result.JSON);
       let token = jwt.sign({
-        email: result[0]
+        email: result.email
       },secretObj.secret,{
         expiresIn: '5m'
       });
 
-      res.cookie('user', token);
+      res.cookie('token', token);
       res.render('user/login',{
         token: token
       });

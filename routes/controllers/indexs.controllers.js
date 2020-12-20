@@ -8,7 +8,7 @@ let jwt = require('jsonwebtoken');
 let secretObj = require('../../config/jwt');
 
 exports.mainPage = async function(req,res,next){
-  let token = req.cookies.user;
+  let token = req.cookies.token;
   console.log(token);
   res.render("index", {
     token : token

@@ -4,11 +4,12 @@ const models = require('../models');
 
 const indexsController = require('./controllers/indexs.controllers');
 
+const { verifyToken } = require('./middlewares/authorization');
 
 
 // controller 폴더로 관리
 
-router.get('/', indexsController.mainPage);
+router.get('/', verifyToken , indexsController.mainPage);
 
 
 /* GET home page. */
