@@ -10,7 +10,8 @@ const secretObj = require('../../config/jwt');
 exports.loginPage = async function(req,res,next){
     let token = await req.cookies.user;
     res.render("user/login", {
-      token : token
+      token : token,
+      pass : true
   });
 };
 
@@ -23,9 +24,17 @@ exports.tryLogin = async function(req, res, next){
       }
     });
 
-    if(result){
+    let token;
+    let dbPassword = result.dataValues.password;
+    let salt = result.dataValues.salt;
+    let inputPassword = body.userpassword;
+    let hashPassword = crypto.createHash("sha512").update(inputPassword + salt).digest("base64");
+
+
+    if(dbPassword === hashPassword){
+      // db pw 와 input Pw가 일치하면 이메일로 토큰 생성
       console.log(result.JSON);
-      let token = jwt.sign({
+        token = jwt.sign({
         email: result.email
       },secretObj.secret,{
         expiresIn: '5m'
@@ -33,14 +42,16 @@ exports.tryLogin = async function(req, res, next){
 
       res.cookie('token', token);
       res.render('user/login',{
-        token: token
+        token: token,
+        pass : true
       });
 
     }
-    else{
-      console.log("db에서 못찾는중");
-      res.render('user/login',{
-        token: token
+    else{ // 에러 페이지로 이동 또는 경고창 띄우고 login 화면 redirect
+      console.log("db에 일치하는 데이터가 없음");
+      res.render('user/login' ,{
+        token: token,
+        pass : false
       });
     }
   } catch (err) {

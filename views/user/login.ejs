@@ -10,15 +10,20 @@
 
     <div class="container mb-3">
 
-      
-      
       <% if(token){ %>
         <h3 class="mb-3">로그인에 성공하셨습니다 ~</h3>
         <form action="/user/logout" method="get">
             <input type="submit" value="로그아웃">
         </form>
     
-      <% } else{ %>
+      <% } else { %>
+
+        <% if(pass == false) { %>
+        <script type= "text/javascript">
+        alert('비밀번호가 틀렸습니다.');
+        </script>
+        <% } %>
+        
         <h3 class="mb-3">로그인</h3>
         <form action= "/user/login" method="post">
 
@@ -41,8 +46,8 @@
             <button type="button" class="btn btn-primary" onclick="location.href='/user/sign_up'">회원가입</button>
           </div>
         </form>
-    
-    <% } %>
+       <% } %>
+
   </div>
   </body>
 </html>
